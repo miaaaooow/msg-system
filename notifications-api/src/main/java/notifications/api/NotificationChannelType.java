@@ -1,6 +1,6 @@
 package notifications.api;
 
-public enum ChannelType {
+public enum NotificationChannelType {
     SMS,
     EMAIL,
     SLACK

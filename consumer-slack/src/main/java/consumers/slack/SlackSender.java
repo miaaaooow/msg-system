@@ -1,11 +1,30 @@
 package consumers.slack;
 
 import notifications.api.Notification;
-import notifications.api.NotificationConsumer;
+import consumer.BasicNotificationConsumer;
+import consumer.NotificationConsumer;
+import notifications.api.recipient.SlackRecipient;
 
-public class SlackSender implements NotificationConsumer {
+public class SlackSender extends BasicNotificationConsumer implements NotificationConsumer {
+
     @Override
-    public void sendNotification(Notification notification) {
-        System.out.println("Sending Slack... " + notification.title());
+    public String prepareSenderIntroMessage(Notification notification) {
+        SlackRecipient slackRecipient = (SlackRecipient) notification.recipient();
+        String receiver = slackRecipient.getSlackChannel() != null
+                ? slackRecipient.getSlackChannel()
+                : slackRecipient.getName();
+        return String.format("Sending Slack %s to user %s or channel %s...", notification.title(),
+                slackRecipient.getName(),
+                receiver);
+    }
+
+    @Override
+    public String prepareSenderOutroMessage(Notification notification) {
+        return String.format("Slack sent. %s", notification.title());
+    }
+
+    @Override
+    public int pretendToWorkForMillis() {
+        return 2000;
     }
 }

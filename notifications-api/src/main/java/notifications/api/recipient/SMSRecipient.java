@@ -1,6 +1,4 @@
-package consumers.sms;
-
-import notifications.api.Recipient;
+package notifications.api.recipient;
 
 public interface SMSRecipient extends Recipient {
     String getPhoneNumber();

@@ -21,5 +21,10 @@
       <artifactId>notifications-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>miaaaooow</groupId>
+      <artifactId>consumer-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

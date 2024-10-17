@@ -30,3 +30,9 @@ with load-orchestration agent, such as Kubernetes.
 ![System diagram](diagram/msg-system.png "System design")
 ### Simulation
 End-to-end simulation of the system for experimental purposes.
+Alternatively, Spring Boot + RabbitMQ could have been used.
+
+#### Prerequisites
+* Java 11+
+* Maven 3.8+
+* RabbitMQ running (see https://www.rabbitmq.com/client-libraries/java-api-guide#getting)

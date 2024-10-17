@@ -1,6 +1,4 @@
-package consumers.slack;
-
-import notifications.api.Recipient;
+package notifications.api.recipient;
 
 public interface SlackRecipient extends Recipient {
     String getSlackChannel();

@@ -5,11 +5,25 @@
   <artifactId>msg-system</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>MSG Notifications Parent</name>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+    <dependency>
+      <groupId>com.rabbitmq</groupId>
+      <artifactId>amqp-client</artifactId>
+      <version>5.22.0</version>
+    </dependency>
+  </dependencies>
   <packaging>pom</packaging>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <slf4j.version>1.7.36</slf4j.version>
   </properties>
 
@@ -17,6 +31,8 @@
     <module>notifications-api</module>
 
     <module>producer</module>
+
+    <module>consumer-api</module>
 
     <module>consumer-email</module>
     <module>consumer-sms</module>
