@@ -1,12 +1,11 @@
 package consumers.email;
 
-import api.ChannelType;
-import api.Notification;
-import api.NotificationConsumer;
+import notifications.api.Notification;
+import notifications.api.NotificationConsumer;
 
 public class EmailSender implements NotificationConsumer {
     @Override
-    public void sendNotification(Notification notification, ChannelType channelType) {
-        System.out.println("Sending Email... " + notification.getTitle());
+    public void sendNotification(Notification notification) {
+        System.out.println("Sending Email... " + notification.title());
     }
 }

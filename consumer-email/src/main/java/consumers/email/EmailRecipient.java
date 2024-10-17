@@ -1,6 +1,6 @@
 package consumers.email;
 
-import api.Recipient;
+import notifications.api.Recipient;
 
 public interface EmailRecipient extends Recipient {
     String getEmail();

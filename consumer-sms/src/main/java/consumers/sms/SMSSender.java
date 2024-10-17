@@ -1,12 +1,11 @@
 package consumers.sms;
 
-import api.ChannelType;
-import api.Notification;
-import api.NotificationConsumer;
+import notifications.api.Notification;
+import notifications.api.NotificationConsumer;
 
 public class SMSSender implements NotificationConsumer {
     @Override
-    public void sendNotification(Notification notification, ChannelType channelType) {
-        System.out.println("Sending SMS... " + notification.getTitle());
+    public void sendNotification(Notification notification) {
+        System.out.println("Sending SMS... " + notification.title());
     }
 }

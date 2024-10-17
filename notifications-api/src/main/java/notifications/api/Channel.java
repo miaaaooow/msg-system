@@ -1,4 +1,4 @@
-package api;
+package notifications.api;
 
 public interface Channel {
     ChannelType getChannelType();
