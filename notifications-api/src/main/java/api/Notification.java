@@ -6,4 +6,5 @@ public interface Notification {
     String getTitle();
     String getContent();
     List<Object> getMetadata();
+    Recipient getRecipient();
 }
