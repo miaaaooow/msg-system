@@ -1,5 +1,6 @@
 package simulation;
 
+import consumer.NotificationConsumer;
 import consumers.email.EmailSender;
 import consumers.slack.SlackSender;
 import consumers.sms.SMSSender;
@@ -8,14 +9,14 @@ import notifications.api.recipient.Recipient;
 import producer.NotificationQueuePublisher;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Simulation {
 
     public static void main(String[] args) throws IOException {
         NotificationQueuePublisher publisher = new NotificationQueuePublisher();
-        EmailSender emailSender = new EmailSender();
-        SMSSender smsSender = new SMSSender();
-        SlackSender slackSender = new SlackSender();
+
 
         for (int i = 0; i < 100; i++) {
             Notification notification = NotificationGenerator.generateNotification();
@@ -27,8 +28,20 @@ public class Simulation {
 
         }
 
-        emailSender.consumeNotification();
-        smsSender.consumeNotification();
-        slackSender.consumeNotification();
+        List<NotificationConsumer> consumers = new ArrayList<>(30);
+        for (int i = 0; i < 10; i++) {
+            EmailSender emailSenderA = new EmailSender();
+            SMSSender smsSenderA = new SMSSender();
+            SlackSender slackSenderA = new SlackSender();
+            consumers.add(emailSenderA);
+            consumers.add(smsSenderA);
+            consumers.add(slackSenderA);
+        }
+
+        for (NotificationConsumer consumer: consumers) {
+            Thread thread = new Thread(new ConsumerRunnable(consumer));
+            thread.start();
+        }
+
     }
 }

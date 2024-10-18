@@ -6,7 +6,7 @@ import notifications.api.recipient.EmailRecipient;
 import consumer.BasicNotificationConsumer;
 import consumer.NotificationConsumer;
 
-public class EmailSender extends BasicNotificationConsumer implements NotificationConsumer {
+public class EmailSender extends BasicNotificationConsumer implements NotificationConsumer  {
 
     @Override
     public String prepareSenderIntroMessage(Notification notification) {
@@ -24,7 +24,7 @@ public class EmailSender extends BasicNotificationConsumer implements Notificati
 
     @Override
     public int pretendToWorkForMillis() {
-        return 1000;
+        return 300;
     }
 
     @Override

@@ -50,11 +50,11 @@ public abstract class BasicNotificationConsumer implements NotificationConsumer 
         try (final Connection connection = factory.newConnection();
              final Channel channel = connection.createChannel()) {
 
+            channel.basicQos(0, 1, false);
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
                 Notification notification = NotificationRestorer.restoreNotification(message, getChannelType());
 
-              //  channel.basicQos(1);
                 logger.info("Consumed " + notification.channelType() + " '" + notification.title() + "' for user " + notification.recipient().getName());
                 try {
                     sendNotification(notification);
@@ -62,7 +62,8 @@ public abstract class BasicNotificationConsumer implements NotificationConsumer 
                     channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
                 }
             };
-            channel.basicConsume(getChannelType().name(), false, deliverCallback, consumerTag -> {});
+            channel.basicConsume(getChannelType().name(), false, deliverCallback, consumerTag -> {
+            });
 
         } catch (TimeoutException e) {
             logger.error(e.getMessage());

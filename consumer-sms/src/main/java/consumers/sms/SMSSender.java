@@ -24,7 +24,7 @@ public class SMSSender extends BasicNotificationConsumer implements Notification
 
     @Override
     public int pretendToWorkForMillis() {
-        return 500;
+        return 200;
     }
 
     @Override

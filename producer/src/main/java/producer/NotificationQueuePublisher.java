@@ -45,7 +45,7 @@ public class NotificationQueuePublisher implements NotificationProducer {
 
                 for (NotificationChannelType channelType : NotificationChannelType.values()) {
                     String queueName = channelType.name();
-                    newChannel.queueDeclare(queueName, true, false, false, null);
+                    newChannel.queueDeclare(queueName, false, false, false, null);
                 }
             } catch (IOException | TimeoutException e) {
                 logger.error("{} {}", e.getMessage(), e.getCause());
@@ -59,6 +59,7 @@ public class NotificationQueuePublisher implements NotificationProducer {
         prepareChannelWithQueues();
         try (Connection connection = factory.newConnection();
              Channel newChannel = connection.createChannel()) {
+            newChannel.basicQos(0, 1, false);
             newChannel.basicPublish("", queueName, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         } catch (IOException | TimeoutException e) {
             logger.error("{} {}", e.getMessage(), e.getCause());

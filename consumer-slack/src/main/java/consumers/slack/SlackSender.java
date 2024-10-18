@@ -26,7 +26,7 @@ public class SlackSender extends BasicNotificationConsumer implements Notificati
 
     @Override
     public int pretendToWorkForMillis() {
-        return 200;
+        return 400;
     }
 
     @Override
