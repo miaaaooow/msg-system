@@ -3,6 +3,7 @@ package consumers.sms;
 import notifications.api.Notification;
 import consumer.BasicNotificationConsumer;
 import consumer.NotificationConsumer;
+import notifications.api.NotificationChannelType;
 import notifications.api.recipient.SMSRecipient;
 
 public class SMSSender extends BasicNotificationConsumer implements NotificationConsumer {
@@ -24,5 +25,10 @@ public class SMSSender extends BasicNotificationConsumer implements Notification
     @Override
     public int pretendToWorkForMillis() {
         return 500;
+    }
+
+    @Override
+    public NotificationChannelType getChannelType() {
+        return NotificationChannelType.SMS;
     }
 }

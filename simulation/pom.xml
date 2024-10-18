@@ -21,5 +21,30 @@
       <artifactId>notifications-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>miaaaooow</groupId>
+      <artifactId>consumer-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>miaaaooow</groupId>
+      <artifactId>consumer-email</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>miaaaooow</groupId>
+      <artifactId>consumer-slack</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>miaaaooow</groupId>
+      <artifactId>consumer-sms</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>miaaaooow</groupId>
+      <artifactId>producer</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

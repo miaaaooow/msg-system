@@ -3,6 +3,7 @@ package consumers.slack;
 import notifications.api.Notification;
 import consumer.BasicNotificationConsumer;
 import consumer.NotificationConsumer;
+import notifications.api.NotificationChannelType;
 import notifications.api.recipient.SlackRecipient;
 
 public class SlackSender extends BasicNotificationConsumer implements NotificationConsumer {
@@ -25,6 +26,11 @@ public class SlackSender extends BasicNotificationConsumer implements Notificati
 
     @Override
     public int pretendToWorkForMillis() {
-        return 2000;
+        return 200;
+    }
+
+    @Override
+    public NotificationChannelType getChannelType() {
+        return NotificationChannelType.SLACK;
     }
 }

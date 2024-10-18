@@ -10,8 +10,10 @@ public record Notification (String title,
                             Recipient recipient,
                             NotificationChannelType channelType) {
 
+    public static final String SEPARATOR = ":::::";
+
     public Notification(String content, Recipient recipient, NotificationChannelType channelType) {
-        this("", content, List.of(), recipient, channelType);
+        this("MSG", content, List.of(), recipient, channelType);
     }
 
 }

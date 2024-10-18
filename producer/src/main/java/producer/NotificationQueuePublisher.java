@@ -4,7 +4,8 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
-import notifications.api.*;
+import notifications.api.Notification;
+import notifications.api.NotificationChannelType;
 import notifications.api.recipient.EmailRecipient;
 import notifications.api.recipient.Recipient;
 import notifications.api.recipient.SMSRecipient;
@@ -15,15 +16,17 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import static notifications.api.Notification.SEPARATOR;
+
 public class NotificationQueuePublisher implements NotificationProducer {
     private static final Logger logger = LoggerFactory.getLogger(NotificationQueuePublisher.class);
 
-    private static final ConnectionFactory factory = new ConnectionFactory();
-    private static Channel notificationsChannel;
-    private static Connection connection;
+    private static ConnectionFactory factory;
 
-    private static ConnectionFactory prepareConnection() {
+
+    private static ConnectionFactory prepareConnectionFactory() {
         // "guest"/"guest" by default, limited to localhost connections
+        factory = new ConnectionFactory();
         factory.setUsername("guest");
         factory.setPassword("guest");
         factory.setVirtualHost("/");
@@ -33,14 +36,14 @@ public class NotificationQueuePublisher implements NotificationProducer {
     }
 
     private static void prepareChannelWithQueues() {
-        if (notificationsChannel == null) {
-            prepareConnection();
+        if (factory == null) {
+            prepareConnectionFactory();
             try (Connection conn = factory.newConnection();
                  Channel newChannel = conn.createChannel()) {
-                notificationsChannel = newChannel;
-                notificationsChannel.basicQos(1); // prefetch one, so that distribution is comparatively equal
 
-                for (NotificationChannelType channelType: NotificationChannelType.values()) {
+                newChannel.basicQos(1); // prefetch one, so that distribution is comparatively equal
+
+                for (NotificationChannelType channelType : NotificationChannelType.values()) {
                     String queueName = channelType.name();
                     newChannel.queueDeclare(queueName, true, false, false, null);
                 }
@@ -54,21 +57,13 @@ public class NotificationQueuePublisher implements NotificationProducer {
         String message = formMessage(notification);
         String queueName = notification.channelType().name();
         prepareChannelWithQueues();
-        try {
-            notificationsChannel.basicPublish("exchange", queueName, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
-        } catch (IOException e) {
+        try (Connection connection = factory.newConnection();
+             Channel newChannel = connection.createChannel()) {
+            newChannel.basicPublish("", queueName, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
+        } catch (IOException | TimeoutException e) {
             logger.error("{} {}", e.getMessage(), e.getCause());
         }
         logger.info("Sent '{}' to channel {}", message, queueName);
-    }
-
-    public void closeConnections() {
-        try {
-            notificationsChannel.close();
-            connection.close();
-        } catch (IOException | TimeoutException e) {
-            logger.error(e.getMessage(), e.getCause());
-        }
     }
 
     private String formMessage(Notification notification) {
@@ -88,4 +83,6 @@ public class NotificationQueuePublisher implements NotificationProducer {
         }
         return sb.toString();
     }
+
+
 }

@@ -16,7 +16,7 @@ These are the agents that produce notifications.
 Since we aim to send the notification exactly once, it makes sense
 to use a message queue for the purpose.
 The message broker of choice in this implementation is Rabbit MQ, as it also 
-suggests control of the producer to the consumption of the notification.
+suggests awareness of the producer to the consumption of the notification.
 
 ### Channel Consumers
 The channel consumers receive notifications and send them in their 
